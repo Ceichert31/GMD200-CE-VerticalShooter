@@ -37,9 +37,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Extra"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""4afaf2c8-6e68-407f-8939-6187ae64fd9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""03a9c39c-cce4-4fc4-b188-672767711142"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -109,7 +118,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Extra"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36a2623b-07ea-4bd5-bd8c-3f2b976ddbe9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -637,7 +657,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
-        m_Movement_Extra = m_Movement.FindAction("Extra", throwIfNotFound: true);
+        m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
+        m_Movement_Fire = m_Movement.FindAction("Fire", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -712,13 +733,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Move;
-    private readonly InputAction m_Movement_Extra;
+    private readonly InputAction m_Movement_Dash;
+    private readonly InputAction m_Movement_Fire;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
         public MovementActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Movement_Move;
-        public InputAction @Extra => m_Wrapper.m_Movement_Extra;
+        public InputAction @Dash => m_Wrapper.m_Movement_Dash;
+        public InputAction @Fire => m_Wrapper.m_Movement_Fire;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -731,9 +754,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Extra.started += instance.OnExtra;
-            @Extra.performed += instance.OnExtra;
-            @Extra.canceled += instance.OnExtra;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -741,9 +767,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Extra.started -= instance.OnExtra;
-            @Extra.performed -= instance.OnExtra;
-            @Extra.canceled -= instance.OnExtra;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -882,7 +911,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnExtra(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

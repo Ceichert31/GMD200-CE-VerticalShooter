@@ -17,7 +17,14 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float 
         dampForce = 5f,
         speed,
-        dashForce;
+        dashForce,
+        dashCooldown,
+        iFrames;
+
+    private bool canDash = true;
+
+    public bool _canDash { get { return canDash; } }
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -30,12 +37,12 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         playerMovement.Enable();
-        playerMovement.Extra.performed += Dash;
+        playerMovement.Dash.performed += Dash;
     }
     private void OnDisable()
     {
         playerMovement.Disable();
-        playerMovement.Extra.performed -= Dash;
+        playerMovement.Dash.performed -= Dash;
     }
 
     // Update is called once per frame
@@ -45,7 +52,9 @@ public class InputManager : MonoBehaviour
         if (!playerMovement.Move.IsInProgress() && rb.velocity.magnitude > 0)
             rb.velocity -= dampForce * Time.deltaTime * rb.velocity;
 
-        rb.AddForce(speed * MoveDirection(), ForceMode2D.Force);
+        if (!canDash)
+            return;
+        rb.velocity = speed * MoveDirection();
     }
     Vector2 MoveDirection()
     {
@@ -55,8 +64,19 @@ public class InputManager : MonoBehaviour
 
     void Dash(InputAction.CallbackContext ctx)
     {
-        rb.AddForce(dashForce * MoveDirection(), ForceMode2D.Impulse);
+        if (!canDash)
+            return;
+
+        rb.velocity = dashForce * MoveDirection();
+
         anim.SetTrigger("Dash");
+
+        canDash = false;
+        gameObject.layer = 0;
+
+        Invoke(nameof(ResetDashCooldown), dashCooldown);
+        Invoke(nameof(ResetDamageWindow), iFrames);
     }
-   
+    void ResetDashCooldown() => canDash = true;
+    void ResetDamageWindow() => gameObject.layer = 6;
 }
