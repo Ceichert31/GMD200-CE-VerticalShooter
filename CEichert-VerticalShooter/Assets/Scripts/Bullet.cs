@@ -2,16 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BulletState
-{
-    normal,
-    homing,
-}
 public class Bullet : MonoBehaviour
 {
-
-
-    [SerializeField] protected BulletState bulletState;
+    public BulletState bulletState;
 
     private Rigidbody2D rb;
 
@@ -41,6 +34,15 @@ public class Bullet : MonoBehaviour
                 break;
 
             case BulletState.homing:
+
+                if (lifeTime > 3)
+                    direction = (GameManager.Instance.player.position - transform.position).normalized;
+
+                rb.velocity = bulletSpeed * direction;
+
+                lifeTime -= Time.deltaTime;
+                if (lifeTime <= 0)
+                    Destroy(gameObject);
                 break;
         }
 

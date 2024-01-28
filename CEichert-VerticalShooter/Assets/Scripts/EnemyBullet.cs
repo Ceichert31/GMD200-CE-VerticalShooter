@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum BulletState
+{
+    normal,
+    homing,
+}
 public class EnemyBullet : MonoBehaviour
 {
 
     [SerializeField] private FireState fireState;
+    [SerializeField] private BulletState bulletState;
 
-    [SerializeField] private float fireRate;
+    [SerializeField] private float 
+        fireRate,
+        attackDistance;
 
     private float waitTime;
 
@@ -21,6 +28,9 @@ public class EnemyBullet : MonoBehaviour
     }
     void Update()
     {
+        if (Vector2.Distance(transform.position, GameManager.Instance.player.position) > attackDistance)
+            return;
+
         waitTime -= Time.deltaTime;
 
         if (waitTime <= 0)
@@ -54,8 +64,13 @@ public class EnemyBullet : MonoBehaviour
         {
             //Vector2 spawnPosition = new(transform.position.x, transform.position.y + 0.6f);
             Bullet bulletInstance = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation).GetComponent<Bullet>();
-            bulletInstance.direction = Vector2.up;
+            bulletInstance.direction = (GameManager.Instance.player.position - transform.position).normalized;
             bulletInstance.hitLayer = 6;
+        
+            if (bulletState == BulletState.homing)
+            {
+                bulletInstance.bulletState = BulletState.homing;
+            }
             yield return new WaitForSeconds(bulletDelay);
         }
         yield return new WaitForSeconds(fireDelay);

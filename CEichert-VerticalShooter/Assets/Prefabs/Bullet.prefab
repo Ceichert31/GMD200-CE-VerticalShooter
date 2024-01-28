@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletState: 0
-  bulletSpeed: 10
-  lifeTime: 5
+  bulletSpeed: 15
+  lifeTime: 4
   hitLayer:
     serializedVersion: 2
     m_Bits: 0
