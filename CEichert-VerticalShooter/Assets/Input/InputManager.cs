@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
         if (!playerMovement.Move.IsInProgress() && rb.velocity.magnitude > 0)
             rb.velocity -= dampForce * Time.deltaTime * rb.velocity;
 
-        if (!canDash)
+        if (gameObject.layer == 0)
             return;
         rb.velocity = speed * MoveDirection();
     }
@@ -65,6 +65,9 @@ public class InputManager : MonoBehaviour
     void Dash(InputAction.CallbackContext ctx)
     {
         if (!canDash)
+            return;
+
+        if (!playerMovement.Move.IsInProgress())
             return;
 
         rb.velocity = dashForce * MoveDirection();
