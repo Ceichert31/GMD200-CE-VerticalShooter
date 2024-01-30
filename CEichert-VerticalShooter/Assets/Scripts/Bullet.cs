@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 {
     public BulletState bulletState;
 
+    [SerializeField] private AnimationCurve homingSpeed;
+
     private Rigidbody2D rb;
 
     public float
@@ -38,7 +40,7 @@ public class Bullet : MonoBehaviour
                 if (lifeTime > 3)
                     direction = (GameManager.Instance.player.position - transform.position).normalized;
 
-                rb.velocity = bulletSpeed * direction;
+                rb.velocity = bulletSpeed * homingSpeed.Evaluate(lifeTime) * direction;
 
                 lifeTime -= Time.deltaTime;
                 if (lifeTime <= 0)
@@ -53,6 +55,12 @@ public class Bullet : MonoBehaviour
         {
             collision.gameObject.GetComponent<Health>().TakeDamage();
             Destroy(gameObject);
+        }
+        //If projectiles are hit when dashing, parry them
+        if (collision.gameObject.layer == 0)
+        {
+            hitLayer &= ~(1 << 6);
+            hitLayer = 7;
         }
     }
 }

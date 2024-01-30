@@ -6,7 +6,6 @@ public enum FireState
 {
     single,
     burst,
-    spread,
     split,
     triple,
 }
@@ -19,7 +18,15 @@ public class BulletManager : MonoBehaviour
 
     [SerializeField] private FireState fireState;
 
+    [SerializeField] private BulletState bulletState;
+
     [SerializeField] private GameObject bullet;
+
+    [SerializeField] private float assistAngle = 30f;
+
+    [SerializeField] private Transform spawnPoint;
+
+    private Vector2 nearEnemy;
 
     void Awake()
     {
@@ -57,6 +64,9 @@ public class BulletManager : MonoBehaviour
                     activeFireCoroutine = StartCoroutine(Shoot(0.1f, 3, 0.4f));
                 break;
         }
+
+        
+
     }
 
     Coroutine activeFireCoroutine = null;
@@ -64,10 +74,38 @@ public class BulletManager : MonoBehaviour
     {
         for (int i = 0; i < bulletNumber; i++)
         {
-            Vector2 spawnPosition = new(transform.position.x, transform.position.y + 0.6f);
-            Bullet bulletInstance = Instantiate(bullet, spawnPosition, new(0, 0, 0, 0)).GetComponent<Bullet>();
-            bulletInstance.direction = Vector2.up;
+            Bullet bulletInstance = Instantiate(bullet, spawnPoint.position, new(0, 0, 0, 0)).GetComponent<Bullet>();
+
             bulletInstance.hitLayer = 7;
+
+            //Aim Assist
+            if (bulletState == BulletState.homing)
+            {
+                //Find nearest enemy
+                if (FindObjectOfType<EnemyBullet>() != null)
+                    nearEnemy = FindObjectOfType<EnemyBullet>().transform.position;
+                //Get players position
+                //playerPos = new(transform.position.x, transform.position.y);
+                Vector2 playerPos = spawnPoint.position.normalized;
+                //Find the direction of the enemy and normalize it
+                Vector2 enemyDirection = (nearEnemy - playerPos).normalized;
+                //Get the angle between the two vectors
+                float enemyDot = Vector2.Dot(playerPos, enemyDirection);
+
+                //Convert unit Vector to radians
+                float enemyRads = Mathf.Acos(enemyDot);
+                //Convert radians to degrees
+                float enemyDegrees = Mathf.Rad2Deg * enemyRads;
+
+                if (enemyDegrees < assistAngle)
+                    bulletInstance.direction = enemyDirection;
+                else
+                    bulletInstance.direction = Vector2.up;
+
+            }
+            else
+                bulletInstance.direction = Vector2.up;
+
             yield return new WaitForSeconds(bulletDelay);
         }
         yield return new WaitForSeconds(fireDelay);

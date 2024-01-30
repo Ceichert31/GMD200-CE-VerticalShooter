@@ -54,6 +54,14 @@ public class EnemyBullet : MonoBehaviour
                 if (activeFireCoroutine == null)
                     activeFireCoroutine = StartCoroutine(Shoot(0.1f, 3, 0.4f));
                 break;
+            case FireState.split:
+                if (activeFireCoroutine == null)
+                {
+                    activeFireCoroutine = StartCoroutine(Shoot(0.1f, 1, 0.4f));
+                    activeFireCoroutine = StartCoroutine(Shoot(0.1f, 1, 0.4f));
+                }
+                    
+                break;
         }
     }
 
@@ -63,7 +71,7 @@ public class EnemyBullet : MonoBehaviour
         for (int i = 0; i < bulletNumber; i++)
         {
             //Vector2 spawnPosition = new(transform.position.x, transform.position.y + 0.6f);
-            Bullet bulletInstance = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation).GetComponent<Bullet>();
+            Bullet bulletInstance = Instantiate(bullet, spawnPoint.position, transform.rotation).GetComponent<Bullet>();
             bulletInstance.direction = (GameManager.Instance.player.position - transform.position).normalized;
             bulletInstance.hitLayer = 6;
         
