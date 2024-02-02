@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
 {
     public Transform player;
 
-    private PlayableDirector director;
-
     public static GameManager Instance { get; private set; }
     void Awake()
     {

@@ -53,14 +53,8 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.layer == hitLayer)
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage();
+            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage();
             Destroy(gameObject);
-        }
-        //If projectiles are hit when dashing, parry them
-        if (collision.gameObject.layer == 0)
-        {
-            hitLayer &= ~(1 << 6);
-            hitLayer = 7;
         }
     }
 }

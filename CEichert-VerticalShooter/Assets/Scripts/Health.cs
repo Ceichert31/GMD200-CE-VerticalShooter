@@ -4,35 +4,18 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    private InputManager inputManager;
     [SerializeField] private int health;
-    private bool isPlayer;
-    private void Awake()
-    {
-        if (GetComponent<InputManager>() != null)
-        {
-            isPlayer = true;
-            inputManager = GetComponent<InputManager>();
-        }
-            
-    }
     public void TakeDamage()
     {
         health--;
 
-        if (isPlayer)
-        {
-            StartCoroutine(DamageDelay(5, 0.1f));
-        }
+        StartCoroutine(DamageDelay(5, 0.1f));
 
-        if (isPlayer && health <= 0)
+        if (health <= 0)
         {
-            inputManager.enabled = false;
             TimeControl.timeControl?.Invoke();
+            UIManager.enable?.Invoke();
         }
-
-        if (health <= 0 && !isPlayer)
-            Destroy(gameObject);
     }
 
     IEnumerator DamageDelay(int invFrames, float flashInterval)
