@@ -21,7 +21,9 @@ public class InputManager : MonoBehaviour
         dashCooldown,
         iFrames;
 
-    private bool canDash = true;
+    private bool 
+        canDash = true,
+        canDamage = true;
 
     public bool _canDash { get { return canDash; } }
 
@@ -52,7 +54,7 @@ public class InputManager : MonoBehaviour
         if (!playerMovement.Move.IsInProgress() && rb.velocity.magnitude > 0)
             rb.velocity -= dampForce * Time.deltaTime * rb.velocity;
 
-        if (gameObject.layer == 0)
+        if (!canDamage)
             return;
         rb.velocity = speed * MoveDirection();
     }
@@ -72,14 +74,20 @@ public class InputManager : MonoBehaviour
 
         rb.velocity = dashForce * MoveDirection();
 
-        anim.SetTrigger("Dash");
 
-        canDash = false;
         gameObject.layer = 0;
+        canDash = false;
+        canDamage = false;
+
+        anim.SetTrigger("Dash");
 
         Invoke(nameof(ResetDashCooldown), dashCooldown);
         Invoke(nameof(ResetDamageWindow), iFrames);
     }
     void ResetDashCooldown() => canDash = true;
-    void ResetDamageWindow() => gameObject.layer = 6;
+    void ResetDamageWindow()
+    {
+        gameObject.layer = 6;
+        canDamage = true;
+    }
 }

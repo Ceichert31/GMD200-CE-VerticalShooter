@@ -92,12 +92,7 @@ public class BulletManager : MonoBehaviour
                 //Get the angle between the two vectors
                 float enemyDot = Vector2.Dot(playerPos, enemyDirection);
 
-                //Convert unit Vector to radians
-                float enemyRads = Mathf.Acos(enemyDot);
-                //Convert radians to degrees
-                float enemyDegrees = Mathf.Rad2Deg * enemyRads;
-
-                if (enemyDegrees < assistAngle)
+                if (enemyDot > -0.8f && enemyDot < 0.8f)
                     bulletInstance.direction = enemyDirection;
                 else
                     bulletInstance.direction = Vector2.up;

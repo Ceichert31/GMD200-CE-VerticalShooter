@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private float movementRange;
-
     [SerializeField] private float moveTime;
 
     private void Start()
     {
         StartCoroutine(MoveToPoint(FindRandomPosition(), moveTime));
     }
+    /// <summary>
+    /// Lerp from current position to new position
+    /// </summary>
+    /// <param name="newPos"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     IEnumerator MoveToPoint(Vector2 newPos, float duration)
     {
         float time = 0;
