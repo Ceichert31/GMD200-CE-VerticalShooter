@@ -16,9 +16,9 @@ public class BulletManager : MonoBehaviour
 
     private InputManager manager;
 
-    [SerializeField] private FireState fireState;
+    public FireState fireState;
 
-    [SerializeField] private BulletState bulletState;
+    public BulletState bulletState;
 
     [SerializeField] private GameObject bullet;
 

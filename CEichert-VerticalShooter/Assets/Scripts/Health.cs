@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int health;
+    [SerializeField] private int 
+        health,
+        invFrames = 6;
     public void TakeDamage()
     {
         health--;
+        HealthUI.removeHealthUI?.Invoke();
 
-        StartCoroutine(DamageDelay(5, 0.1f));
+        StartCoroutine(DamageDelay(invFrames, 0.1f));
 
         if (health <= 0)
         {
             TimeControl.timeControl?.Invoke();
-            UIManager.enable?.Invoke();
+            /*UIManager.enable?.Invoke();*/
         }
     }
 
@@ -22,7 +25,7 @@ public class Health : MonoBehaviour
     {
         SpriteRenderer playerRender = GetComponent<SpriteRenderer>();
         gameObject.layer = 0;
-        for (int i = 0; i <= invFrames; i++)
+        for (int i = 0; i < invFrames; i++)
         {
             playerRender.enabled = !playerRender.enabled;
             yield return new WaitForSeconds(flashInterval);

@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 2635414443592418087}
   - component: {fileID: 3456582916991948239}
   - component: {fileID: 6171733994726198646}
-  - component: {fileID: -4774434692914518979}
   - component: {fileID: 5748566193952687621}
   - component: {fileID: 6467246857024549562}
+  - component: {fileID: 2150922959662799707}
   m_Layer: 3
-  m_Name: Bullet
+  m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4b0926a07ce7ea54782ed468046ba0ae, type: 3}
-  m_Color: {r: 0.32941177, g: 0.6117647, b: 0.32941177, a: 1}
+  m_Color: {r: 0.10791205, g: 0.58014524, b: 0.9150943, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -115,49 +115,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &-4774434692914518979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5731470078698404491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62d1e5a1e0be904f8722be2b67a677e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletState: 0
-  homingSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0017700195
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2.3005629
-      outSlope: 2.3005629
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.04389123
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  bulletSpeed: 10
-  lifeTime: 4
-  hitLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  direction: {x: 0, y: 0}
 --- !u!95 &5748566193952687621
 Animator:
   serializedVersion: 5
@@ -238,3 +195,46 @@ PolygonCollider2D:
       - {x: -0.070463285, y: 0.40019664}
       - {x: -0.27065983, y: 0.21508795}
   m_UseDelaunayMesh: 0
+--- !u!114 &2150922959662799707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5731470078698404491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1572f329901421749ad8068043d5303f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletState: 0
+  homingSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0017700195
+      value: 1
+      inSlope: 4.728014
+      outSlope: 4.728014
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03497342
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.3005629
+      outSlope: 2.3005629
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.04389123
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bulletSpeed: 10
+  lifeTime: 4
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  direction: {x: 0, y: 0}
