@@ -16,7 +16,7 @@ public class EnemyBullet : MonoBehaviour
 
     public LayerMask hitLayer;
 
-    [HideInInspector] public Vector2 direction;
+    [HideInInspector] public Vector3 direction;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

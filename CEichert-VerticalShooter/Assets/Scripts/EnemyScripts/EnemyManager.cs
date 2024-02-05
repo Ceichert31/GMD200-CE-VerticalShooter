@@ -12,9 +12,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private FireState fireState;
     [SerializeField] private BulletState bulletState;
 
-    [SerializeField] private float 
-        fireRate,
-        attackDistance;
+    [SerializeField]
+    private float fireRate;
 
     private float waitTime;
 
@@ -28,9 +27,6 @@ public class EnemyManager : MonoBehaviour
     }
     void Update()
     {
-        if (Vector2.Distance(transform.position, GameManager.Instance.player.position) > attackDistance)
-            return;
-
         waitTime -= Time.deltaTime;
 
         if (waitTime <= 0)
@@ -71,7 +67,8 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < bulletNumber; i++)
         {
             //Vector2 spawnPosition = new(transform.position.x, transform.position.y + 0.6f);
-            EnemyBullet bulletInstance = Instantiate(bullet, spawnPoint.position, transform.rotation).GetComponent<EnemyBullet>();
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, 180, transform.rotation.w);
+            EnemyBullet bulletInstance = Instantiate(bullet, spawnPoint.position, spawnRotation).GetComponent<EnemyBullet>();
             bulletInstance.direction = (GameManager.Instance.player.position - transform.position).normalized;
             bulletInstance.hitLayer = 6;
         
