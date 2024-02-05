@@ -43,7 +43,6 @@ public class Ant : MonoBehaviour
         }
         transform.position = endPos;
         enemyHealth.TakeDamage();
-        UIManager.addPoints?.Invoke(50);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

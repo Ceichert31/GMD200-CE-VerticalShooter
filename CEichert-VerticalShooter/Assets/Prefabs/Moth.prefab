@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9006776885165930990}
   - component: {fileID: 6848556832108435597}
   - component: {fileID: -2371166184982073551}
+  - component: {fileID: -1175528054206993983}
   m_Layer: 7
   m_Name: Moth
   m_TagString: Untagged
@@ -215,3 +216,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnManager: {fileID: 0}
   health: 6
+--- !u!114 &-1175528054206993983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427580285381425370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c2c1e06dbe5404aa3b51e65fc683c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPool:
+  - {fileID: 11400000, guid: 99217d43447c12549a6e09bf58ebf15e, type: 2}
