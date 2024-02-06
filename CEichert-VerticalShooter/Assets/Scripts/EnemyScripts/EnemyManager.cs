@@ -56,7 +56,6 @@ public class EnemyManager : MonoBehaviour
                     activeFireCoroutine = StartCoroutine(Shoot(0.1f, 1, 0.4f));
                     activeFireCoroutine = StartCoroutine(Shoot(0.1f, 1, 0.4f));
                 }
-                    
                 break;
         }
     }

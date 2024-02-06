@@ -17,12 +17,12 @@ public class PowerupManager : MonoBehaviour
     {
         if (collision.gameObject.layer == 8)
         {
-
             Powerup instance = collision.GetComponent<Powerup>();
             if (bulletManager.fireState == FireState.single)
                 bulletManager.fireState = instance.fireState;
             if (bulletManager.bulletState == BulletState.normal)
                 bulletManager.bulletState = instance.bulletState;
+            StopAllCoroutines();
             StartCoroutine(PowerUpDuration(powerUpDuration));
         }
     }

@@ -16,6 +16,10 @@ public class BulletManager : MonoBehaviour
 
     private InputManager manager;
 
+    private AudioSource audioSource;
+
+    [SerializeField] private AudioClip bulletClip;
+
     public FireState fireState;
 
     public BulletState bulletState;
@@ -34,8 +38,7 @@ public class BulletManager : MonoBehaviour
         playerMovement = playerInput.Movement;
 
         manager = GetComponent<InputManager>();
-        
-        
+        audioSource = GetComponent<AudioSource>();        
     }
     private void OnEnable()
     {
@@ -75,7 +78,7 @@ public class BulletManager : MonoBehaviour
         for (int i = 0; i < bulletNumber; i++)
         {
             Bullet bulletInstance = Instantiate(bullet, spawnPoint.position, new(0, 0, 0, 0)).GetComponent<Bullet>();
-
+            audioSource.PlayOneShot(bulletClip, 0.4f);
             bulletInstance.hitLayer = 7;
 
             //Aim Assist
