@@ -64,7 +64,7 @@ public class BulletManager : MonoBehaviour
 
             case FireState.burst:
                 if (activeFireCoroutine == null)
-                    activeFireCoroutine = StartCoroutine(HomingShot(0.1f, 3, 0.4f));
+                    activeFireCoroutine = StartCoroutine(Shoot(0.1f, 3, 0.4f));
                 break;
         }
 
@@ -81,26 +81,12 @@ public class BulletManager : MonoBehaviour
             audioSource.PlayOneShot(bulletClip, 0.4f);
             bulletInstance.hitLayer = 7;
 
-            bulletInstance.direction = Vector2.up;
-
-            yield return new WaitForSeconds(bulletDelay);
-        }
-        yield return new WaitForSeconds(fireDelay);
-        activeFireCoroutine = null;
-    }
-
-    IEnumerator HomingShot(float bulletDelay, int bulletNumber, float fireDelay)
-    {
-        for (int i = 0; i < bulletNumber; i++)
-        {
-            Bullet bulletInstance = Instantiate(bullet, spawnPoint.position, new(0, 0, 0, 0)).GetComponent<Bullet>();
-            audioSource.PlayOneShot(bulletClip, 0.4f);
-            bulletInstance.hitLayer = 7;
-
             //Aim Assist
-            //Find nearest enemy
-            if (FindObjectOfType<EnemyBullet>() != null)
-                nearEnemy = FindObjectOfType<EnemyBullet>().transform.position;
+            if (bulletState == BulletState.homing)
+            {
+                //Find nearest enemy
+                if (FindObjectOfType<EnemyBullet>() != null)
+                    nearEnemy = FindObjectOfType<EnemyBullet>().transform.position;
                 //Get players position
                 //playerPos = new(transform.position.x, transform.position.y);
                 Vector2 playerPos = spawnPoint.position.normalized;
@@ -113,6 +99,9 @@ public class BulletManager : MonoBehaviour
                     bulletInstance.direction = enemyDirection;
                 else
                     bulletInstance.direction = Vector2.up;
+            }
+            else
+                bulletInstance.direction = Vector2.up;
 
             yield return new WaitForSeconds(bulletDelay);
         }

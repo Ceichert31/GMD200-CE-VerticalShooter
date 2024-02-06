@@ -8,13 +8,17 @@ public class EnemyHealth : MonoBehaviour
     private PowerupSpawner powerupSpawner;
     [SerializeField] private int health;
 
+    private Animator animator;
+
     private void Start()
     {
         powerupSpawner = GetComponent<PowerupSpawner>();
+        animator = GetComponent<Animator>();
     }
     public void TakeDamage()
     {
         health--;
+        animator.SetTrigger("Damaged");
 
         if (health <= 0)
         {

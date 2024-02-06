@@ -35,17 +35,14 @@ public class Bullet : MonoBehaviour
                     Destroy(gameObject);
                 break;
 
-            case BulletState.homing:
-
-                if (lifeTime > 3)
-                    direction = (GameManager.Instance.player.position - transform.position).normalized;
+            /*case BulletState.homing:
 
                 rb.velocity = bulletSpeed * homingSpeed.Evaluate(lifeTime) * direction;
 
                 lifeTime -= Time.deltaTime;
                 if (lifeTime <= 0)
                     Destroy(gameObject);
-                break;
+                break;*/
         }
 
     }

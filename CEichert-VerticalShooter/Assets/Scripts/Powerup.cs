@@ -40,8 +40,8 @@ public class Powerup : MonoBehaviour
         {
             //Add points to the total score
             UIManager.addPoints?.Invoke(50);
-
             source.PlayOneShot(pickupSound, 0.7f);
+            PowerupText.enablepowerUPText?.Invoke(powerUpText);
             Destroy(gameObject);
         }
             
